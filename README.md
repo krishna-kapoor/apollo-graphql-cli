@@ -1,6 +1,6 @@
 # Apollo Server Boilerplate (CLI)
 
-> Latest Release: v1.0.0
+> Latest Release: v1.0.1
 
 This CLI allows you to create your server by running just one command: `apollo-server-boilerplate`. The server runs using the following libraries:
 

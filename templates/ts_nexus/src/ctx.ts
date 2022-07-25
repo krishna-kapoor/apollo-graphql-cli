@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { ExpressContext } from "apollo-server-express";
 
 export interface ctx {
