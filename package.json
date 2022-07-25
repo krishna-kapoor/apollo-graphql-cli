@@ -1,6 +1,6 @@
 {
     "name": "apollo-server-boilerplate",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Boilerplate Apollo and ExpressJS servers",
     "keywords": [
         "Apollo",

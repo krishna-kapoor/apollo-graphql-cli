@@ -4,7 +4,14 @@ import chalk from "chalk";
 import "dotenv/config";
 import express from "express";
 import path from "path";
-import { DEV_CORS_PATHS, getServedUrl, PORT, PROD_CORS_PATH, __prod__ } from "./constants";
+import {
+    DEV_CORS_PATHS,
+    getServedUrl,
+    GRAPHQL_PATH,
+    PORT,
+    PROD_CORS_PATH,
+    __prod__,
+} from "./constants";
 import { getContext } from "./ctx";
 import schema from "./schema";
 
@@ -32,7 +39,7 @@ export default async function main() {
 
     server.applyMiddleware({
         app,
-        path: "/graphql",
+        path: GRAPHQL_PATH,
         cors: {
             origin: !__prod__ ? DEV_CORS_PATHS : PROD_CORS_PATH,
             credentials: true,
