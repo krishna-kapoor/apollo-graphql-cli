@@ -25,6 +25,8 @@ export function getOptions(rawArgs) {
         {
             "--git": Boolean,
             "-g": "--git",
+            "--version": Boolean,
+            "-v": "--version",
         },
         { argv: rawArgs.slice(2) }
     );
@@ -32,6 +34,7 @@ export function getOptions(rawArgs) {
     return {
         initializeGitRepository: options["--git"] || false,
         projectFolder: options._[0] || ".",
+        showVersion: options["--version"] || false,
     };
 }
 
@@ -47,16 +50,13 @@ async function initializeGitRepository() {
     return;
 }
 
-function copyTemplateFiles(templateOptions) {
-    return copy(templateOptions.templateDirectory, templateOptions.targetDirectory, {
+function copyTemplateFiles(options) {
+    return copy(options.templateDirectory, options.targetDirectory, {
         clobber: false,
     });
 }
 
 export async function createProject(options) {
-    const targetDirectory = path.resolve(process.cwd(), options.projectFolder);
-    options.targetDirectory = targetDirectory;
-
     const templateDirectory = getTemplateUrl(options.template);
     options.templateDirectory = templateDirectory;
 
@@ -72,20 +72,28 @@ export async function createProject(options) {
         {
             title: "Initializing git repository",
             task: () => initializeGitRepository(),
-            enabled: () => options.git,
+            enabled: () => options.initializeGitRepository,
         },
         {
             title: "Installing dependencies",
             task: () =>
                 projectInstall({
                     cwd: options.targetDirectory,
+                    prefer: "yarn",
                 }),
         },
     ]);
 
     await tasks.run();
 
-    console.log("%s Project ready", chalk.green.bold("DONE"));
+    console.log("\n%s Project ready", chalk.bgGreen(" DONE "));
+
+    if (options.template.includes("ts")) {
+        console.log("\nTo build, run \n%s", chalk.yellow.bold("npm run build"));
+        console.log("\nTo run a live build, run \n%s", chalk.yellow.bold("npm run build:watch"));
+    }
+
+    console.log("\nTo start your dev server, run \n%s", chalk.yellow.bold("npm run dev"));
 
     return true;
 }

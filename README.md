@@ -1,8 +1,6 @@
-# Apollo Server Boilerplate (CLI)
+# Apollo GraphQL CLI v1.0.1
 
-> Latest Release: v1.0.2
-
-This CLI allows you to create your server by running just one command: `apollo-server-boilerplate`. The server runs using the following libraries:
+This CLI allows you to create your server by running just one command: `apollo-graphql-cli`. The server runs using the following libraries:
 
 1. Apollo Server Express (`apollo-server-express`)
 2. PrismaJS (`@prisma/client` and `prisma`)
@@ -14,13 +12,13 @@ This CLI allows you to create your server by running just one command: `apollo-s
 **Without a git repo**
 
 ```bash
-apollo-server-boilerplate [Project folder name]
+$ apollo-graphql-cli [project folder path]
 ```
 
 **With a git repo**
 
 ```bash
-apollo-server-boilerplate [Project folder name] --git (or -g)
+$ apollo-graphql-cli [project folder path] --git (or -g)
 ```
 
 ### Questions asked

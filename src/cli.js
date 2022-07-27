@@ -1,18 +1,35 @@
 import chalk from "chalk";
-import { askQuestions } from "./askQuestions";
+import path from "path";
 import { createProject, getOptions } from "./main";
+import { provideAllOptions } from "./provideAllOptions";
+import { VERSION } from "./version";
 
 export async function cli(rawArgs) {
-    const initialOptions = getOptions(rawArgs);
+    let initialOptions = getOptions(rawArgs);
 
-    console.log(chalk.bold("Welcome to apollo-server-boilerplate CLI!"));
+    if (initialOptions.showVersion) {
+        console.log("CLI version %s", chalk.green(VERSION));
+        return true;
+    }
+
     console.log(
-        chalk("Create your server-side project with ApolloServer, GraphQL, Nexus, and Prisma!")
+        chalk.white(
+            "\nCreate your server-side project with ApolloServer, GraphQL, Nexus, and Prisma!"
+        )
     );
 
-    const answers = await askQuestions();
+    const targetDirectory = path.resolve(process.cwd(), initialOptions.projectFolder);
+    initialOptions.targetDirectory = targetDirectory;
 
-    const allOptions = { ...initialOptions, ...answers };
+    console.log(
+        "\n" +
+            chalk.bgGreen(" CREATE PROJECT ") +
+            " Creating project in " +
+            chalk.cyan(initialOptions.targetDirectory) +
+            "\n"
+    );
+
+    const allOptions = await provideAllOptions(initialOptions);
 
     await createProject(allOptions);
 }
